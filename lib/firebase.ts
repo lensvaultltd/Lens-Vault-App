@@ -9,9 +9,21 @@ const firebaseConfig = {
     // Add other config vars if needed (storageBucket, etc)
 };
 
-if (!firebaseConfig.apiKey) {
-    console.error("Firebase API Key is missing! Make sure VITE_FIREBASE_API_KEY is set in your environment variables.");
+let app;
+let auth: any;
+
+try {
+    if (firebaseConfig.apiKey) {
+        app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+    } else {
+        console.warn("Firebase API Key missing. Authentication disabled.");
+        auth = { currentUser: null, signOut: async () => { }, getIdToken: async () => null };
+    }
+} catch (error) {
+    console.error("Failed to initialize Firebase:", error);
+    auth = { currentUser: null, signOut: async () => { }, getIdToken: async () => null };
 }
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+export { auth };
+
