@@ -1,188 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lens Vault</title>
 
-    <style>
-      :root {
-        --background: 0 0% 100%;
-        --foreground: 224 71% 4%;
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lens Vault</title>
 
-        --card: 0 0% 100%;
-        --card-foreground: 224 71% 4%;
+  <style>
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 224 71% 4%;
 
-        --popover: 0 0% 100%;
-        --popover-foreground: 224 71% 4%;
+      --card: 0 0% 100%;
+      --card-foreground: 224 71% 4%;
 
-        --primary: 220 9% 46%;
-        --primary-foreground: 0 0% 100%;
+      --popover: 0 0% 100%;
+      --popover-foreground: 224 71% 4%;
 
-        --secondary: 220 13% 91%;
-        --secondary-foreground: 224 71% 4%;
+      --primary: 220 9% 46%;
+      --primary-foreground: 0 0% 100%;
 
-        --muted: 220 13% 91%;
-        --muted-foreground: 220 9% 46%;
+      --secondary: 220 13% 91%;
+      --secondary-foreground: 224 71% 4%;
 
-        --accent: 220 13% 91%;
-        --accent-foreground: 224 71% 4%;
+      --muted: 220 13% 91%;
+      --muted-foreground: 220 9% 46%;
 
-        --destructive: 0 84% 60%;
-        --destructive-foreground: 0 0% 100%;
+      --accent: 220 13% 91%;
+      --accent-foreground: 224 71% 4%;
 
-        --border: 220 13% 91%;
-        --input: 220 9% 46%;
-        --ring: 220 9% 46%;
-        --radius: 0.5rem;
+      --destructive: 0 84% 60%;
+      --destructive-foreground: 0 0% 100%;
 
-        --bg-gradient-start: hsla(210, 100%, 92%, 0.3);
-        --bg-gradient-middle: hsla(220, 20%, 85%, 0.4);
+      --border: 220 13% 91%;
+      --input: 220 9% 46%;
+      --ring: 220 9% 46%;
+      --radius: 0.5rem;
+
+      --bg-gradient-start: hsla(210, 100%, 92%, 0.3);
+      --bg-gradient-middle: hsla(220, 20%, 85%, 0.4);
+    }
+
+    .dark {
+      --background: 224 71% 4%;
+      --foreground: 210 20% 98%;
+
+      --card: 224 71% 4%;
+      --card-foreground: 210 20% 98%;
+
+      --popover: 224 71% 4%;
+      --popover-foreground: 210 20% 98%;
+
+      --primary: 215 20% 65%;
+      --primary-foreground: 222.2 47.4% 11.2%;
+
+      --secondary: 215 28% 17%;
+      --secondary-foreground: 210 20% 98%;
+
+      --muted: 215 28% 17%;
+      --muted-foreground: 215 20% 65%;
+
+      --accent: 215 28% 17%;
+      --accent-foreground: 210 20% 98%;
+
+      --destructive: 0 63% 31%;
+      --destructive-foreground: 210 20% 98%;
+
+      --border: 215 28% 17%;
+      --input: 215 20% 65%;
+      --ring: 215 20% 65%;
+
+      --bg-gradient-start: hsla(210, 50%, 15%, 0.4);
+      --bg-gradient-middle: hsla(220, 15%, 25%, 0.3);
+    }
+
+    body {
+      background-color: hsl(var(--background));
+      color: hsl(var(--foreground));
+      background-image: radial-gradient(at 15% 85%, var(--bg-gradient-start), transparent 50%),
+        radial-gradient(at 80% 20%, var(--bg-gradient-middle), transparent 50%);
+      background-attachment: fixed;
+      background-size: 100% 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    a {
+      color: hsl(var(--primary));
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .bg-gradient-accent {
+      background-image: linear-gradient(to right, hsl(var(--primary)), hsl(220, 9%, 60%));
+      border: 1px solid hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+    }
+
+    .dark .bg-gradient-accent {
+      background-image: linear-gradient(to right, hsl(var(--primary)), hsl(215, 20%, 50%));
+    }
+
+    .bg-gradient-accent:hover {
+      opacity: 0.9;
+    }
+
+    .text-gradient-heading {
+      background-image: linear-gradient(to right, hsl(var(--foreground)), hsl(var(--primary)));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .prose h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .prose h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .prose p {
+      margin-bottom: 0.5rem;
+    }
+
+    .prose ul {
+      list-style-position: inside;
+      padding-left: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .prose li {
+      margin-bottom: 0.25rem;
+    }
+
+    .prose strong {
+      font-weight: 600;
+    }
+
+    @keyframes fill-progress {
+      from {
+        width: 0%;
       }
+    }
 
-      .dark {
-        --background: 224 71% 4%;
-        --foreground: 210 20% 98%;
+    .progress-bar-fill {
+      animation: fill-progress 1s ease-out forwards;
+    }
 
-        --card: 224 71% 4%;
-        --card-foreground: 210 20% 98%;
+    .card-lift-hover {
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    }
 
-        --popover: 224 71% 4%;
-        --popover-foreground: 210 20% 98%;
+    .card-lift-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px -5px hsl(var(--primary) / 0.1), 0 4px 6px -2px hsl(var(--primary) / 0.05);
+    }
 
-        --primary: 215 20% 65%;
-        --primary-foreground: 222.2 47.4% 11.2%;
+    .dark .card-lift-hover:hover {
+      box-shadow: 0 10px 20px -5px hsl(var(--primary) / 0.2), 0 4px 6px -2px hsl(var(--primary) / 0.1);
+    }
 
-        --secondary: 215 28% 17%;
-        --secondary-foreground: 210 20% 98%;
+    .card-glow {
+      --glow-color: hsl(var(--primary) / 0.3);
+      box-shadow: 0 0 15px var(--glow-color), 0 0 5px var(--glow-color);
+    }
+  </style>
 
-        --muted: 215 28% 17%;
-        --muted-foreground: 215 20% 65%;
-
-        --accent: 215 28% 17%;
-        --accent-foreground: 210 20% 98%;
-
-        --destructive: 0 63% 31%;
-        --destructive-foreground: 210 20% 98%;
-
-        --border: 215 28% 17%;
-        --input: 215 20% 65%;
-        --ring: 215 20% 65%;
-
-        --bg-gradient-start: hsla(210, 50%, 15%, 0.4);
-        --bg-gradient-middle: hsla(220, 15%, 25%, 0.3);
-      }
-
-      body {
-        background-color: hsl(var(--background));
-        color: hsl(var(--foreground));
-        background-image: radial-gradient(at 15% 85%, var(--bg-gradient-start), transparent 50%),
-                          radial-gradient(at 80% 20%, var(--bg-gradient-middle), transparent 50%);
-        background-attachment: fixed;
-        background-size: 100% 100%;
-        transition: background-color 0.3s ease;
-      }
-      a {
-        color: hsl(var(--primary));
-      }
-      a:hover {
-        text-decoration: underline;
-      }
-      .bg-gradient-accent {
-        background-image: linear-gradient(to right, hsl(var(--primary)), hsl(220, 9%, 60%));
-        border: 1px solid hsl(var(--primary));
-        color: hsl(var(--primary-foreground));
-      }
-      .dark .bg-gradient-accent {
-        background-image: linear-gradient(to right, hsl(var(--primary)), hsl(215, 20%, 50%));
-      }
-      .bg-gradient-accent:hover {
-        opacity: 0.9;
-      }
-      .text-gradient-heading {
-        background-image: linear-gradient(to right, hsl(var(--foreground)), hsl(var(--primary)));
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-      }
-      .prose h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
-      .prose h3 { font-size: 1.1rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
-      .prose p { margin-bottom: 0.5rem; }
-      .prose ul { list-style-position: inside; padding-left: 1rem; margin-bottom: 1rem; }
-      .prose li { margin-bottom: 0.25rem; }
-      .prose strong { font-weight: 600; }
-      @keyframes fill-progress {
-        from { width: 0%; }
-      }
-      .progress-bar-fill {
-        animation: fill-progress 1s ease-out forwards;
-      }
-      .card-lift-hover {
-        transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-      }
-      .card-lift-hover:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 10px 20px -5px hsl(var(--primary) / 0.1), 0 4px 6px -2px hsl(var(--primary) / 0.05);
-      }
-      .dark .card-lift-hover:hover {
-        box-shadow: 0 10px 20px -5px hsl(var(--primary) / 0.2), 0 4px 6px -2px hsl(var(--primary) / 0.1);
-      }
-      .card-glow {
-        --glow-color: hsl(var(--primary) / 0.3);
-        box-shadow: 0 0 15px var(--glow-color), 0 0 5px var(--glow-color);
-      }
-    </style>
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              border: "hsl(var(--border))",
-              input: "hsl(var(--input))",
-              ring: "hsl(var(--ring))",
-              background: "hsl(var(--background))",
-              foreground: "hsl(var(--foreground))",
-              primary: {
-                DEFAULT: "hsl(var(--primary))",
-                foreground: "hsl(var(--primary-foreground))",
-              },
-              secondary: {
-                DEFAULT: "hsl(var(--secondary))",
-                foreground: "hsl(var(--secondary-foreground))",
-              },
-              destructive: {
-                DEFAULT: "hsl(var(--destructive))",
-                foreground: "hsl(var(--destructive-foreground))",
-              },
-              muted: {
-                DEFAULT: "hsl(var(--muted))",
-                foreground: "hsl(var(--muted-foreground))",
-              },
-              accent: {
-                DEFAULT: "hsl(var(--accent))",
-                foreground: "hsl(var(--accent-foreground))",
-              },
-              popover: {
-                DEFAULT: "hsl(var(--popover))",
-                foreground: "hsl(var(--popover-foreground))",
-              },
-              card: {
-                DEFAULT: "hsl(var(--card))",
-                foreground: "hsl(var(--card-foreground))",
-              },
-            },
-            borderRadius: {
-              lg: "var(--radius)",
-              md: "calc(var(--radius) - 2px)",
-              sm: "calc(var(--radius) - 4px)",
-              xl: "calc(var(--radius) + 4px)",
-            },
-          }
-        }
-      }
-    </script>
   <script type="importmap">
 {
   "imports": {
@@ -197,25 +188,27 @@
   }
 }
 </script>
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#1e293b">
-    <link rel="apple-touch-icon" href="/icons/icon-192.png">
-  </head>
-  <body class="bg-background text-foreground">
-    <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-              console.log('SW registered: ', registration);
-            })
-            .catch(registrationError => {
-              console.log('SW registration failed: ', registrationError);
-            });
-        });
-      }
-    </script>
-  </body>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#1e293b">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+</head>
+
+<body class="bg-background text-foreground">
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(registration => {
+            console.log('SW registered: ', registration);
+          })
+          .catch(registrationError => {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
+    }
+  </script>
+</body>
+
 </html>

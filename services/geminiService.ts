@@ -4,7 +4,15 @@ import { hibpService } from "./hibpService";
 
 // Fix: Per @google/genai guidelines, initialize the client directly with process.env.API_KEY,
 // assuming it's always available. API key availability checks have been removed.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Lazy init to prevent crash if key is missing during app startup
+const getAiClient = () => {
+  const apiKey = process.env.API_KEY || (window as any).GEMINI_API_KEY || '';
+  if (!apiKey) {
+    console.error("GEMINI_API_KEY is missing!");
+  }
+  return new GoogleGenAI({ apiKey });
+};
+
 
 export const getPasswordAudit = async (passwords: IPasswordEntry[]): Promise<string> => {
   try {
@@ -66,7 +74,7 @@ export const getPasswordAudit = async (passwords: IPasswordEntry[]): Promise<str
       ${JSON.stringify(passwordMetadata, null, 2)}
     `;
 
-    const response = await ai.models.generateContent({
+    const response = await getAiClient().models.generateContent({
       model: 'gemini-2.5-flash',
       contents: prompt,
     });
@@ -122,7 +130,7 @@ export const runDarkWebAudit = async (email: string): Promise<{ report: string; 
       If no breaches are found, still provide general security best practices under the "Recommendations" section.
     `;
 
-    const response = await ai.models.generateContent({
+    const response = await getAiClient().models.generateContent({
       model: 'gemini-2.5-flash',
       contents: prompt,
       config: {
